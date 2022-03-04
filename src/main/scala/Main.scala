@@ -1,25 +1,37 @@
-package tests
+import java.awt.Choice
+import java.sql.ResultSet
+import cats.effect._
+import cats.syntax.all.*
+import io.StdIn.*
 
-import java.sql.{Connection,DriverManager}
+object Main extends IOApp {
+  private val connection = dataBase.connection.getConnection
 
-object ScalaJdbcConnectSelect extends App {
-  val url = "jdbc:mysql://localhost:3306/applicants"
-  val driver = "com.mysql.jdbc.Driver"
-  val username = "root"
-  val password = "root"
-  var connection:Connection = _
-  try {
-    Class.forName(driver)
-    connection = DriverManager.getConnection(url, username, password)
-    val statement = connection.createStatement
-    val rs = statement.executeQuery("SELECT applicant_id, name FROM applicants")
-    while (rs.next) {
-      val host = rs.getString("applicant_id")
-      val user = rs.getString("name")
-      println("applicant_id = %s, name = %s".format(host,user))
+  //database ini
+  private def iniDB(): Unit = {
+    println("Start Initializing the Database...")
+    val sql_statement = connection.createStatement()
+    sql_statement.executeUpdate("CREATE TABLE IF NOT EXISTS applicants(applicant_id CHAR(9), " +
+    "name VARCHAR(64) NOT NULL, gender VARCHAR(64), birthday DATE, " + 
+    "email VARCHAR(64), PRIMARY KEY(applicant_id));")
+    sql_statement.executeUpdate("CREATE TABLE IF NOT EXISTS education(applicant_id CHAR(9) NOT NULL, " +
+    "university_name VARCHAR(64) NOT NULL, location VARCHAR(64), qualification VARCHAR(64), " +
+    "major VARCHAR(64), start_date DATE, end_date DATE, best_score INT, gpa DECIMAL(10, 0), " +
+    "rank INT, sponsorship BOOL, PRIMARY KEY(applicant_id), FOREIGN KEY (applicant_id) "+
+    "REFERENCES applicants(applicant_id));")
+    sql_statement.executeUpdate("CREATE TABLE IF NOT EXISTS employment(applicant_id CHAR(9) NOT NULL, "+
+    "occupation VARCHAR(64), employed_from DATE, employed_to DATE, company_name VARCHAR(64) NOT NULL, "+
+    "PRIMARY KEY(applicant_id), FOREIGN KEY(applicant_id) REFERENCES applicants(applicant_id));")
+    sql_statement.executeUpdate("CREATE TABLE IF NOT EXISTS language(applicant_id CHAR(9) NOT NULL, type VARCHAR(64), "+
+    "exam_date DATE, score INT, listening INT, reading INT, speaking INT, writing INT, PRIMARY KEY(applicant_id), "+
+    "FOREIGN KEY (applicant_id) REFERENCES applicants(applicant_id));")
     }
-  } catch {
-    case e: Exception => e.printStackTrace
-  }
-  connection.close
+
+
+  // main
+  override def run(args: List[String]): IO[ExitCode] =
+    for {
+      _ <- IO(println("Welcome to the applicantion system.\n"))
+      _ <- IO(iniDB())
+    } yield ExitCode.Success
 }

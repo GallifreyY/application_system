@@ -11,6 +11,6 @@ lazy val root = project
     libraryDependencies ++= Seq (
       "mysql" % "mysql-connector-java" % "8.0.27",
       "org.apache.commons" % "commons-dbcp2" % "2.8.0",
-      "org.typelevel" %% "cats-effect" % "3.3.5" withSources() withJavadoc()
+      "org.typelevel" %% "cats-effect" % "3.3.6" withSources() withJavadoc()
     )
   )
