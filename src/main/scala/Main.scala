@@ -34,7 +34,6 @@ object Main extends IOApp {
                      start_date:String, end_date:String, best_score: Int, gpa: Int, ranking: Int, sponsorship: Int,
                      occupation:String, employed_from:String, employed_to: String, company_name:String,
                      exam_type: String,exam_date: String, score: Int, listening: Int, reading: Int, speaking: Int, writing: Int): Unit = {
-    //println("Start Initializing the Database...")
     val sql_statement = connection.createStatement()
     sql_statement.executeUpdate(s"INSERT INTO applicants VALUES (${applicant_id}, '${name}', '${gender}', STR_TO_DATE('${birthday}','%Y-%m-%d'), '${email}');")
     sql_statement.executeUpdate(s"INSERT INTO education VALUES (${applicant_id}, '${university_name}', '${location}', '${qualification}', '${major}'," +
@@ -42,7 +41,7 @@ object Main extends IOApp {
     sql_statement.executeUpdate(s"INSERT INTO employment VALUES (${applicant_id}, '${occupation}', STR_TO_DATE('${employed_from}','%Y-%m-%d'), STR_TO_DATE('${employed_to}','%Y-%m-%d'),'${company_name}');")
     sql_statement.executeUpdate(s"INSERT INTO language VALUES (${applicant_id}, '${exam_type}', STR_TO_DATE('${exam_date}','%Y-%m-%d'), ${score},${listening}, ${reading},${speaking},${writing});")
   }
-//STR_TO_DATE("${birthday}","%Y-%m-%d")
+
   private def delete(applicant_id: Int): Unit = {
     val sql_statement = connection.createStatement()
     sql_statement.executeUpdate(s"DELETE FROM education WHERE applicant_id = ${applicant_id};")
@@ -52,7 +51,6 @@ object Main extends IOApp {
   }
 
   private def update(applicant_id: Int,table: String, column: String, new_value: Any): Unit = {
-    //println("Start Initializing the Database...")
     val sql_statement = connection.createStatement()
     new_value match {
       case new_value: String => sql_statement.executeUpdate(s"UPDATE ${table} SET ${column} = '${new_value}' WHERE applicant_id = ${applicant_id};")
@@ -61,9 +59,7 @@ object Main extends IOApp {
     }
   }
 
-
   private def view(applicant_id: Int,table:String): Unit = {
-    //println("Start Initializing the Database...")
     val sql_statement = connection.createStatement()
     sql_statement.executeQuery(s"SELECT * from applicants WHERE applicant_id = ${applicant_id};")
     println(s"'${table}' info of applicant_id: ${applicant_id} is: ")
@@ -78,22 +74,45 @@ object Main extends IOApp {
           println(resmd.getColumnName(i) + ": " + colVal + ",")
         }
       }
-      //println("")
     }
   }
 
+  private def interface(): Unit = {
+  println("Please select from the following operations: \n" +
+    "1. Submit your applications: [Press 1]\n" + 
+    "2. Delete your applications: [Press 2]\n" + 
+    "3. Modify your applications: [Press 3]\n" +
+    "4. View your applications: [Press 4]\n" +
+    "5. Exit: [Press 0]")
+    val userinput = readInt()
+    userinput match {
+      case 1 =>
+        insert(2,"name","gender", "2022-03-05","email",
+            "university_name", "location", "qualification", "major", "2022-03-01", "2022-03-05", 90,5,5,1,
+            "occupation", "2022-01-01", "2022-02-01", "company_name",
+            "IELTS","2020-03-01",7,8,7,8,7)
+        interface()
+      case 2 =>
+        delete(1)
+        interface()
+      case 3 =>
+        update(2,"education", "gpa", 4.0)
+        interface()
+      case 4 =>
+        view(2,"education")
+        interface()
+      case 0 =>
+        println("Bye")
+      case _ =>
+        println("Invaild. Please enter number from 0-4 again.")
+        interface()
+    }
+  }
   // main
   override def run(args: List[String]): IO[ExitCode] =
     for {
       _ <- IO(println("Welcome to the application system.\n"))
       _ <- IO(iniDB())
-      //val id = List(1,2,3,4,5)
-      //_ <- IO(insert(2,"name","gender", "2022-03-05","email",
-      //  "university_name", "location", "qualification", "major", "2022-03-01", "2022-03-05", 90,5,5,1,
-      //  "occupation", "2022-01-01", "2022-02-01", "company_name",
-      //  "IELTS","2020-03-01",7,8,7,8,7))
-      //_ <- IO(delete(1))
-      //_ <- IO(update(2,"education", "gpa", 4.0))
-      _ <- IO(view(2,"education"))
+      _ <- IO(interface())
     } yield ExitCode.Success
 }

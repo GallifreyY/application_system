@@ -12,6 +12,5 @@ lazy val root = project
       "mysql" % "mysql-connector-java" % "8.0.27",
       "org.apache.commons" % "commons-dbcp2" % "2.8.0",
       "org.typelevel" %% "cats-effect" % "3.3.6" withSources() withJavadoc(),
-      //"com.typesafe.play" %% "play-slick" % "5.0.0"
     )
   )
