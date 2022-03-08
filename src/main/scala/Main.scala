@@ -13,7 +13,7 @@ object Main extends IOApp {
   private def iniDB(): Unit = {
     println("Start Initializing the Database...")
     val sql_statement = connection.createStatement()
-    sql_statement.executeUpdate("CREATE TABLE IF NOT EXISTS applicants(applicant_id INT NOT NULL, " +
+    sql_statement.executeUpdate("CREATE TABLE IF NOT EXISTS applicants(applicant_id CHAR(9) NOT NULL, " +
     "name VARCHAR(64) NOT NULL, gender VARCHAR(64), birthday DATE, " +
     "email VARCHAR(64), PRIMARY KEY(applicant_id));")
     sql_statement.executeUpdate("CREATE TABLE IF NOT EXISTS education(applicant_id CHAR(9) NOT NULL, " +

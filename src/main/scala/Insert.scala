@@ -6,8 +6,8 @@ object Insert {
 
     def insertoDB(): Unit = {
         val sql_statement = connection.createStatement()
-        val applicant_id = readLine("Please input your id: ")
         println("Please enter your personal information below:\n")
+        val applicant_id = readLine("Please input your id: ")
         val name = readLine("Please input your name: ")
         val gender = readLine("Please input your gender: ")
         val birthday = readLine("Please input your birthday:")
