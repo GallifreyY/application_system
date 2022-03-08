@@ -10,7 +10,7 @@ object dataBase {
   val db = "jdbc:mysql://localhost/applicants"
   val connection = new BasicDataSource()
   connection.setUsername("root")
-  connection.setPassword("root")
+  connection.setPassword("yyc19980708")
   connection.setDriverClassName("com.mysql.cj.jdbc.Driver")
   connection.setUrl(db)
 }
