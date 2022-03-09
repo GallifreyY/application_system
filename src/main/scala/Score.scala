@@ -13,9 +13,8 @@ object Score {
         "WHEN datediff(em.employed_to, em.employed_from) > 180 THEN 20 " +
         "WHEN datediff(em.employed_to, em.employed_from) < 30 THEN 0 " +
         "ELSE 15 END )" +
-        "+ (CASE " +
-        "WHEN l.exam_type = TOEFL THEN l.score/4.8 " +
-        "WHEN l.exam_type = IELTS THEN l.score*25/9) AS overall_score " +
+        "+ (CASE l.exam_type WHEN \"TOEFL\" THEN l.score/4.8 " +
+        "WHEN \"IELTS\" THEN l.score*25/9 ELSE 0 END) AS overall_score " +
         "FROM education AS e INNER JOIN employment AS em ON e.applicant_id = em.applicant_id " +
         "INNER JOIN language AS l on e.applicant_id = l.applicant_id " +
         "ORDER BY overall_score DESC;")
