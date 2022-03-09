@@ -2,6 +2,7 @@ import java.awt.Choice
 import java.sql.ResultSet
 import cats.effect.*
 import cats.syntax.all.*
+import java.lang.Boolean
 
 import java.util.Date
 import io.StdIn.*
@@ -19,7 +20,7 @@ object Main extends IOApp {
     sql_statement.executeUpdate("CREATE TABLE IF NOT EXISTS education(applicant_id CHAR(9) NOT NULL, " +
     "university_rank VARCHAR(64) NOT NULL, location VARCHAR(64), qualification VARCHAR(64), " +
     "major VARCHAR(64), start_date DATE, end_date DATE, best_score INT, gpa DECIMAL(10, 0), " +
-    "ranking INT, sponsorship BOOL, PRIMARY KEY(applicant_id), FOREIGN KEY (applicant_id) "+
+    "ranking INT, sponsorship INT, PRIMARY KEY(applicant_id), FOREIGN KEY (applicant_id) "+
     "REFERENCES applicants(applicant_id));")
     sql_statement.executeUpdate("CREATE TABLE IF NOT EXISTS employment(applicant_id CHAR(9) NOT NULL, "+
     "occupation VARCHAR(64), employed_from DATE, employed_to DATE, company_name VARCHAR(64) NOT NULL, "+
@@ -41,7 +42,7 @@ object Main extends IOApp {
     val userinput = readInt()
     userinput match {
       case 1 =>
-        Insert.insertoDB();
+        Insert.insertoDB()
         interface()
       case 2 =>
         Delete.deletetoDB()
@@ -58,7 +59,7 @@ object Main extends IOApp {
       case 0 =>
         println("Bye")
       case _ =>
-        println("Invaild. Please enter number from 0-4 again.")
+        println("Invaild. Please enter number from 0-5 again.")
         interface()
     }
   }
