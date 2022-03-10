@@ -4,9 +4,7 @@
 
 This is a normal sbt project. You can compile code with `sbt compile`, run it with `sbt run`, and `sbt console` will start a Scala 3 REPL.
 
-### MySql
+### Prerequisite
 
-Download and install MySql and create the database `applicants` first. Change the username and password according to your environment set up.
-
-### CRUD
-**Create**: Please note that only `String` & `Int` are allowed.
+1. Download and install MySQL and create the database/schema `applicants`.
+2. Update the local host `username` and `password` in the dataBase.scala file.
