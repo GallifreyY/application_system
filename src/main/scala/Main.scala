@@ -63,7 +63,7 @@ object Main extends IOApp {
       case 0 =>
         println("Bye")
       case _ =>
-        println("Invaild. Please enter number from 0-5 again.")
+        println("Invalid. Please enter number from 0-5 again.")
         interface()
     }
   }
