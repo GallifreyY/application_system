@@ -18,7 +18,7 @@ object View {
       sql_statement.executeQuery(s"SELECT * from applicants WHERE applicant_id = ${applicant_id};")
       println(s"'${table}' info of applicant_id: ${applicant_id} is: ")
       import java.sql.ResultSet
-      val res: ResultSet = sql_statement.executeQuery(s"SELECT * from applicants WHERE applicant_id = ${applicant_id};")
+      val res: ResultSet = sql_statement.executeQuery(s"SELECT * from ${table} WHERE applicant_id = ${applicant_id};")
       val resmd = res.getMetaData
       val colNum = resmd.getColumnCount
       while (res.next) {
