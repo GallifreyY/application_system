@@ -55,6 +55,10 @@ object Main extends IOApp {
         interface()
       case 5 =>
         Score.overallScore()
+        Score.academicScore()
+        Score.universityScore()
+        Score.workScore()
+        Score.languageScore()
         interface()
       case 0 =>
         println("Bye")
