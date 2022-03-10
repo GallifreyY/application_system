@@ -6,7 +6,7 @@ This is a normal sbt project. You can compile code with `sbt compile`, run it wi
 
 ### MySql
 
-Download and install MySql and create the database `applicants` first.
+Download and install MySql and create the database `applicants` first. Change the username and password according to your environment set up.
 
 ### CRUD
 **Create**: Please note that only `String` & `Int` are allowed.
